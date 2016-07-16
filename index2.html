@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang='de-DE'>
+<head>
+    <!--***META***-->
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1.0' />
+    <title>I'm a title</title>
+
+    <!--***CSS***-->
+    <link rel='stylesheet'
+        type='text/css'
+        href='css/datagrid.css' />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 75%;
+            height: 600px;
+            margin: 0 auto;
+        }
+
+        app {
+            display: block;
+        }
+
+        cell {
+            //border: 1px solid black;
+        }
+
+        data-grid {
+            height: 450px;
+        }
+    </style>
+    <!--***JS***-->
+    <script src='chance.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js'></script>
+    <script src='virtualForEach.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/sugar/1.4.1/sugar.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.18/require.js'></script>
+
+    <!--***LINKS***-->
+
+</head>
+<body>
+    <app>
+        <div style="height: 50px;"></div>
+        <data-grid params="data: test">
+            <row>
+                <cell data-bind="text: name"></cell>
+                <cell data-bind="text: surname"></cell>
+                <cell data-bind="text: birthday"></cell>
+                <cell data-bind="text: gender"></cell>
+                <cell data-bind="text: phone"></cell>
+            </row>
+        </data-grid>
+    </app>
+    <script src='viewmodel.js'></script>
+</body>
+</html>
