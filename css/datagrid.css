@@ -3,7 +3,8 @@ data-grid {
   overflow-x: hidden;
   flex-direction: column;
   -webkit-flex-direction: column;
-  width: -webkit-fit-content; }
+  width: -webkit-fit-content;
+  color: #5a5a5a; }
 
 data-grid, data-grid-header, data-grid-body, data-grid-footer, row {
   display: flex; }
@@ -22,6 +23,15 @@ data-grid-body {
   flex-wrap: wrap; }
   data-grid-body .virtual-white-space {
     min-width: 100%; }
+  data-grid-body row:nth-of-type(even) {
+    background: #fff; }
+  data-grid-body row:nth-of-type(odd) {
+    background: #f8f8f8; }
+  data-grid-body row {
+    border-top: 1px solid #f1f1f1;
+    padding: 3px 0; }
+  data-grid-body cell:nth-of-type(1) {
+    padding-left: 3px; }
 
 data-grid-body::-webkit-scrollbar {
   background-color: transparent;
@@ -36,11 +46,6 @@ data-grid-body::-webkit-scrollbar-thumb {
 data-grid-body::scrollbar-track {
   background-color: #ececec;
   border-radius: 0; }
-
-.width-1of3 {
-  min-width: 33% !important;
-  max-width: 33% !important;
-  width: 33% !important; }
 
 data-grid-header, data-grid-footer {
   width: 100%;
