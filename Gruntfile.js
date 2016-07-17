@@ -13,16 +13,16 @@ module.exports = function (grunt) {
       sass: {
         files: ['./css/*.scss'],
         tasks: ['sass'],
+        options: {
+            livereload: true,
+        }
       },
-      css: {
-          files: `./css/*.css`,
+      livereload: {
+          files: ['./css/*.css', './views/*.html'],
           tasks: ['noop'],
-          livereload: true,
-      },
-      html: {
-        files: ['./views/*.html'],
-        tasks: ['noop'],
-        livereload: true,
+          options: {
+              livereload: true,
+          }
       },
     },
     sass: {

@@ -5,6 +5,7 @@ data-grid {
     -webkit-flex-direction: column;
     width: -webkit-fit-content;
     color: #5a5a5a;
+    min-width: 100%;
 }
 
 data-grid, data-grid-header, data-grid-body, data-grid-footer, row {
@@ -19,14 +20,26 @@ data-grid-body {
     display: flex;
     flex: 1;
     -webkit-flex: 1;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
     width: 100%;
     flex-wrap: wrap;
+    align-content: flex-start;
+
+    &.no-items-placeholder {
+        row {
+            max-height: 31px;
+        }
+
+        cell {
+            min-width: 100%!important;
+        }
+    }
 
     .virtual-white-space {
         min-width: 100%;
+        flex: 0 0 100%;
     }
 
     // Zebra striping

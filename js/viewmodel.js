@@ -1,15 +1,24 @@
 ko.components.register('data-grid', {
     template: `
-    <h3><!-- ko text: (data().length).format() --><!-- /ko --> items</h3>
     <style type="text/css" data-bind="text: style"></style>
     <data-grid-header data-bind="attr: { id: identifier + '-header' }">
         <row data-bind="foreach: columns">
             <cell data-bind="text: title, click: isSortColumn.bind($data, true), css: { 'sort-column': isSortColumn, 'sort-descending': isSortColumn() && $parent.sortDescending() }"></cell>
         </row>
     </data-grid-header>
+    <!-- ko if: data().length === 0 -->
+    <data-grid-body data-bind="attr: { id: identifier + '-body' }"
+                    class="no-items-placeholder">
+        <row>
+            <cell>There aren't any items to display.</cell>
+        </row>
+    </data-grid-body>
+    <!-- /ko -->
+    <!-- ko if: data().length > 0 -->
     <data-grid-body data-bind="attr: { id: identifier + '-body' }">
         <!-- ko virtualForEach: { data: data, template: $componentTemplateNodes, childHeight: 24, virtualChildSelector: 'row' } --><!-- /ko -->
     </data-grid-body>
+    <!-- /ko -->
     <data-grid-footer style="display: none;">
         <row>
             <cell>Footer!</cell>
@@ -22,6 +31,7 @@ ko.components.register('data-grid', {
     </data-grid-footer>
     `,
     viewModel: function (params) {
+        // Todo: Must use a computed / subscriptions to update properly (e.g. number of columns change)
         let { data, headers, fields, width, sortBy, sortDescending } = params;
 
         this._data = data;
@@ -75,7 +85,7 @@ ko.components.register('data-grid', {
         let style = '';
         width.each((w, i) => {
             if (w !== 'auto') {
-                style += `#${this.identifier}-body cell:nth-of-type(${i + 1}){min-width:${w}!important;max-width:${w}!important} #${this.identifier}-header cell:nth-of-type(${i + 1}){min-width:${w}!important;max-width:${w}!important}`;
+                style += `#${this.identifier}-body cell:nth-of-type(${i + 1}){min-width:${w};max-width:${w}} #${this.identifier}-header cell:nth-of-type(${i + 1}){min-width:${w}!important;max-width:${w}!important}`;
             }
         });
         this.style = style;
@@ -104,23 +114,25 @@ ko.components.register('data-grid', {
     }
 });
 
-let testData = [];
-for (let i = 0; i < 10000; i++) {
-    testData.push({
-        name: chance.first(),
-        surname: chance.last(),
-        birthday: chance.birthday({ string: true }),
-        gender: chance.gender(),
-        phone: chance.phone(),
-        plz: chance.zip(),
-    });
-}
+numberOfItems = ko.observable().extend({ rateLimit: { timeout: 800, method: "notifyWhenChangesStop" } });;
+testData = ko.observableArray([]);
 
-while (testData.length < 1e4) {
-    testData = [...testData, ...testData];
-}
+numberOfItems.subscribe(n => {
+    let result = [];
+    for (let i = 0; i < n; i++) {
+        result.push({
+            name: chance.first(),
+            surname: chance.last(),
+            birthday: chance.birthday({ string: true }),
+            gender: chance.gender(),
+            phone: chance.phone(),
+            plz: chance.zip(),
+        });
+    }
 
-testData = ko.observableArray(testData);
+    testData(result);
+});
+numberOfItems(1e4);
 
 ko.applyBindings({
     test: testData,
