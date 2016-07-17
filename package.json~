@@ -5,7 +5,7 @@
   "main": "chance.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "grunt && node app.js"
+    "start": "node app.js && grunt"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +16,6 @@
     "grunt-sass": "^1.2.0"
   },
   "dependencies": {
-    "express": "^4.14.0",
-    "grunt-express-server": "^0.5.3"
+    "express": "^4.14.0"
   }
 }

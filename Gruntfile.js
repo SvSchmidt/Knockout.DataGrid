@@ -2,27 +2,27 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-express-server');
 
   grunt.registerTask('noop', []);
 
-  grunt.registerTask('default', ['sass', 'connect', 'watch']);
+  grunt.registerTask('default', ['sass', 'express', 'connect', 'watch']);
 
   grunt.initConfig({
     watch: {
       sass: {
         files: ['./css/*.scss'],
         tasks: ['sass'],
-        livereload: 1337,
       },
       css: {
           files: `./css/*.css`,
           tasks: ['noop'],
-          livereload: 1337,
+          livereload: true,
       },
       html: {
-        files: ['./*.html'],
-        tasks: [],
-        livereload: 1337,
+        files: ['./views/*.html'],
+        tasks: ['noop'],
+        livereload: true,
       },
     },
     sass: {
@@ -32,15 +32,24 @@ module.exports = function (grunt) {
             }
         }
     },
-    connect: {
-      server: {
-        options: {
-          port: 1337,
-          keepalive: false,
-          open: true,
+    express: {
+        dev: {
+            options: {
+                script: 'app.js',
+            },
         },
-        livereload: 1337,
-      }
+    },
+    connect: {
+        server: {
+          options: {
+            port: 1337,
+            keepalive: false,
+            open: {
+              target: 'http://localhost:8080',
+            },
+          },
+          livereload: true,
+        }
     }
   });
 }
